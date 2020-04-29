@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 var request = require('request');
 
+let result = new Array();
 router.post('/', async (req, res) => {
   const { medInfo } = req.body;
   console.log(medInfo);
@@ -28,6 +29,8 @@ router.post('/', async (req, res) => {
         //console.log('Status', response.statusCode);
         //console.log('Headers', JSON.stringify(response.headers));
         //console.log('Reponse received', body);
+        result.push(body);
+        console.log(result);
         res.send(body);
       }
     );
@@ -38,9 +41,11 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/', (req, res) => {
-  const { data } = req.params;
-  console.log(data);
-  res.send(data);
+router.get('/', async (req, res) => {
+  try {
+    res.send(result);
+  } catch (err) {
+    console.log('err');
+  }
 });
 module.exports = router;
