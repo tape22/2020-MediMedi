@@ -38,4 +38,9 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.get('/', (req, res) => {
+  const { data } = req.params;
+  console.log(data);
+  res.send(data);
+});
 module.exports = router;
