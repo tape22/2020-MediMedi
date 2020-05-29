@@ -1,5 +1,5 @@
-// var express = require('express');
-// var router = express.Router();
+//var express = require('express');
+//var router = express.Router();
 
 // // const { KMR, KKMA } = require('koalanlp/API');
 // // const { initialize } = require('koalanlp/Util');
@@ -42,5 +42,4 @@
 //   }
 // });
 
-// module.exports = router;
-
+module.exports = router;
