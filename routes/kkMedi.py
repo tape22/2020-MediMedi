@@ -26,6 +26,7 @@ kkma = Kkma()
 
 samp = sys.argv
 samp = ''.join(samp)
+
 #print('samp:'+samp)
 #result = mecab.pos(samp)
 #mlist = list()
@@ -40,7 +41,7 @@ for keyword, type in result:
     if type=="NNP":
         nouns.append(keyword)
         #nouns.append(kkma.pos(keyword))
-#print(mlist)
+
 nouns = list(set(nouns))
 name = ''.join(nouns)
 print(name)
