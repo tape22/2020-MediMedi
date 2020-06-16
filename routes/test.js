@@ -1,5 +1,5 @@
-//var express = require('express');
-//var router = express.Router();
+// var express = require('express');
+// var router = express.Router();
 
 // // const { KMR, KKMA } = require('koalanlp/API');
 // // const { initialize } = require('koalanlp/Util');
@@ -29,17 +29,14 @@
 // //   (error) => console.error('Error Occurred!', error)
 // // );
 
-// var Mecab = require('../modules/test');
-// var mecab = new Mecab();
+// var mecab = require('mecab-ya');
+// //var mecab = new Mecab();
 
-// var text = '전문의약품\n\n염증성 안질환 치르\n\n옵타론\n점안액 0.1%\n(플루오로데리\n\n5ml\n타가틴정';
+// router.get('/', function (req, res) {
+//   var text = '아버지가방에들어가신다';
 
-// mecab.parse(text, function (items) {
-//   for (var i in items) {
-//     var k = items[i];
-//     if (k == 'EOS') continue;
-//     console.log(k[0] + ':' + k[1]);
-//   }
+//   mecab.pos(text, function (err, result) {
+//     console.log(result);
+//   });
 // });
-
-module.exports = router;
+// module.exports = router;
