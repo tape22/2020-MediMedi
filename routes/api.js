@@ -24,6 +24,7 @@ router.post('/', ps, async (req, res) => {
     }
 
     /* 추가적인 알고리즘 */
+    
 
     /* API에 검색하기-> 나중에 모듈로 빼기  */
     if (medInfo.length != 0) {

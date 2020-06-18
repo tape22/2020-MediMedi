@@ -5,14 +5,14 @@ module.exports = async (req, res, next) => {
   let { medInfo } = req.body;
 
   medInfo = medInfo.replace(/\n/g, ''); // 개행문자 제거
-  //medInfo = medInfo.replace(/\t/g, '');
-  var regExp = /[\{\}\[\]\/?.•·,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
+  medInfo = medInfo.replace(/\t/g, '');
+  //var regExp = /[\{\}\[\]\/?.•·,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
 
-  if (regExp.test(medInfo)) {
-    var t = medInfo.replace(regExp, '');
-    medInfo = t;
-  }
-  medInfo = medInfo.replace(/ /gi, '');
+  // if (regExp.test(medInfo)) {
+  //   var t = medInfo.replace(regExp, '');
+  //   medInfo = t;
+  // }
+  //medInfo = medInfo.replace(/ /gi, '');
 
   console.log('미들웨어:', medInfo);
 
@@ -29,7 +29,7 @@ module.exports = async (req, res, next) => {
         throw err;
       }
       if (message == '') {
-        console.log('메시지 배열에 결과값이 없음.');
+        console.log(' 결과값이 없음.');
         res.send(sc.NO_CONTENT);
       } else {
         console.log('message:', message);
