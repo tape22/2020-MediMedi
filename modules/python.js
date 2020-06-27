@@ -3,6 +3,7 @@ var { sc, au, rm } = require('../modules/utils');
 
 module.exports = async (req, res, next) => {
   let { medInfo } = req.body;
+  console.log('medInfo:', medInfo);
 
   medInfo = medInfo.replace(/\n/g, ''); // 개행문자 제거
   medInfo = medInfo.replace(/\t/g, '');

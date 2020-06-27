@@ -8,16 +8,12 @@ from bs4 import BeautifulSoup
 
 from konlpy.tag import Kkma
 from konlpy.tag import Mecab as m
-import MeCab
 
 m=m()
 
 samp = sys.argv[1]
-
 samp = ''.join(samp)
-
 result= m.pos(samp)
-#result2 = k.pos(samp)
 #print(result)
 nouns = list()
 
