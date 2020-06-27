@@ -10,6 +10,7 @@ module.exports = {
     NULL_VALUE: "필요한 값이 없습니다.",
     INTERNAL_SERVER_ERROR: '서버 내부 오류',
     API_SUCCESS:"api 성공",
-    API_FALI:"api 실패"
+    API_FALI:"api 실패",
+    API_NULL :"api 검색이 안됨. 결과값이 안나옴!"
     
 }
