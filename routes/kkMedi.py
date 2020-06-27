@@ -12,8 +12,6 @@ from konlpy.tag import Mecab as m
 
 
 m=m()
-
->>>>>>> 69588e9568613a3285f2679f0f3933d6dd5c2547
 samp = sys.argv[1]
 
 samp = ''.join(samp)
