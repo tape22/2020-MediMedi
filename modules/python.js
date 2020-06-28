@@ -3,6 +3,7 @@ var { sc, au, rm } = require('../modules/utils');
 
 module.exports = async (req, res, next) => {
   let { medInfo } = req.body;
+  console.log('medInfo:', medInfo);
 
   medInfo = medInfo.replace(/\n/g, ''); // 개행문자 제거
   medInfo = medInfo.replace(/\t/g, '');
@@ -24,7 +25,7 @@ module.exports = async (req, res, next) => {
     args: medInfo,
   };
   try {
-    ps.PythonShell.run('/home/ubuntu/2020-MediMedi/routes/kkMedi.py', options, function (err, message) {
+    ps.PythonShell.run('/Users/jungmin/Desktop/졸업 프로젝트/medi/-2020-MediMedi/routes/kkMedi.py', options, function (err, message) {
       if (err) {
         throw err;
       }

@@ -2,11 +2,14 @@ const express = require('express');
 const router = express.Router();
 var ps = require('../modules/python');
 var request = require('request');
-var json = require('xml-js');
+var cheerio = require('cheerio');
 var { sc, au, rm } = require('../modules/utils');
 var url = 'http://apis.data.go.kr/1471057/MdcinPrductPrmisnInfoService/getMdcinPrductItem';
 var queryParams = '?' + encodeURIComponent('ServiceKey') + '=VD6O56pfN7UxrkSMBnnUS0stE6c3vvZiClYmIUGuO0LS37jUVukST9GU3cva9Ens5cx5eldbQ8qWqp7EbN7Ing%3D%3D';
-var result = '';
+
+var iv = require('iconv-lite');
+var result = [];
+
 // API에 검색하기
 router.post('/', ps, async (req, res) => {
   try {
@@ -30,16 +33,42 @@ router.post('/', ps, async (req, res) => {
       }
       queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /* 페이지 번호 */
       queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('5'); /* 한 페이지 결과수 */
+
       request(
         {
           url: url + queryParams,
           method: 'GET',
         },
-        await function (error, response, body) {
+        function (error, response, body) {
           /*totalCount가 0이면 에러처리하기  */
           if (error) {
             res.status(sc.BAD_REQUEST).send(au.successFalse);
             console.log('err');
+
+          }
+
+          var content = Buffer.from(body);
+          const xmlContent = iv.decode(content, 'utf-8').toString();
+          var $ = cheerio.load(xmlContent, { xmlMode: true });
+          console.log($('totalCount'));
+          if ($('totalCount') == 0) {
+            res.status(sc.BAD_REQUEST).send(au.successFalse(rm.API_NULL));
+          }
+          $('item').each(function () {
+            name = $(this).children('ITEM_NAME').text();
+            ENTP = $(this).children('ENTP_NAME').text();
+            ETC = $(this).children('ETC_OTC_CODE').text();
+            STORAGE = $(this).children('STORAGE_METHOD').text();
+            VALID = $(this).children('VALID_TERM').text();
+            EE = $(this).children('EE_DOC_DATA').text();
+            UD = $(this).children('UD_DOC_DATA').text();
+            NB = $(this).children('NB_DOC_DATA').text();
+
+            result.push(name, ENTP, ETC, STORAGE, VALID, EE, UD, NB);
+          });
+          console.log(result);
+          res.status(sc.OK).send(au.successTrue(result));
+
         }
 		result = body;
 		console.log(result);
