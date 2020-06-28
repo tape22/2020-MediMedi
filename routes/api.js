@@ -6,6 +6,7 @@ var cheerio = require('cheerio');
 var { sc, au, rm } = require('../modules/utils');
 var url = 'http://apis.data.go.kr/1471057/MdcinPrductPrmisnInfoService/getMdcinPrductItem';
 var queryParams = '?' + encodeURIComponent('ServiceKey') + '=VD6O56pfN7UxrkSMBnnUS0stE6c3vvZiClYmIUGuO0LS37jUVukST9GU3cva9Ens5cx5eldbQ8qWqp7EbN7Ing%3D%3D';
+
 var iv = require('iconv-lite');
 var result = [];
 
@@ -43,6 +44,7 @@ router.post('/', ps, async (req, res) => {
           if (error) {
             res.status(sc.BAD_REQUEST).send(au.successFalse);
             console.log('err');
+
           }
 
           var content = Buffer.from(body);
@@ -66,7 +68,11 @@ router.post('/', ps, async (req, res) => {
           });
           console.log(result);
           res.status(sc.OK).send(au.successTrue(result));
+
         }
+		result = body;
+		console.log(result);
+	}
       );
     }
   } catch (err) {
@@ -79,7 +85,8 @@ router.post('/', ps, async (req, res) => {
 // API 검색 결과 가져오기
 router.get('/', async (req, res) => {
   try {
-    res.send(result);
+	  res.send(result);
+	  console.log('통신성공');
   } catch (err) {
     console.log('err');
   }
