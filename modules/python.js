@@ -25,7 +25,7 @@ module.exports = async (req, res, next) => {
     args: medInfo,
   };
   try {
-    ps.PythonShell.run('/home/ubuntu/2020-MediMedi/routes/kkMedi.py', options, function (err, message) {
+    ps.PythonShell.run('/Users/jungmin/Desktop/졸업 프로젝트/medi/-2020-MediMedi/routes/kkMedi.py', options, function (err, message) {
       if (err) {
         throw err;
       }
