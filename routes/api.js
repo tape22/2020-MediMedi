@@ -49,7 +49,7 @@ router.post('/', ps, async (req, res) => {
         res.status(sc.BAD_REQUEST).send(au.successFalse(rm.API_NULL));
       }
       $('item').each(function () {
-        name = $(this).children('ITEM_NAME').text();
+        NAME = $(this).children('ITEM_NAME').text();
         ENTP = $(this).children('ENTP_NAME').text();
         ETC = $(this).children('ETC_OTC_CODE').text();
         STORAGE = $(this).children('STORAGE_METHOD').text();
@@ -58,14 +58,12 @@ router.post('/', ps, async (req, res) => {
         UD = $(this).children('UD_DOC_DATA').text();
         NB = $(this).children('NB_DOC_DATA').text();
 
-        result.push(name, ENTP, ETC, STORAGE, VALID, EE, UD, NB);
-        console.log(name);
+        result.push(NAME, ENTP, ETC, STORAGE, VALID, EE, UD, NB);
       });
 
       res.status(sc.OK).send(au.successTrue(result));
       console.log(result);
       result.length = 0;
-
       return;
     });
   } catch (err) {
