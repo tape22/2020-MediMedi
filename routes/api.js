@@ -63,7 +63,9 @@ router.post('/', ps, async (req, res) => {
       });
 
       res.status(sc.OK).send(au.successTrue(result));
+      console.log(result);
       result.length = 0;
+
       return;
     });
   } catch (err) {
@@ -74,12 +76,13 @@ router.post('/', ps, async (req, res) => {
 });
 
 // API 검색 결과 가져오기
-// router.get('/', async (req, res) => {
-//   try {
-//     res.send(result);
-//   } catch (err) {
-//     console.log('err');
-//   }
-// });
+router.get('/', async (req, res) => {
+  try {
+    res.send(result);
+    console.log('통신성공');
+  } catch (err) {
+    console.log('err');
+  }
+});
 
 module.exports = router;
