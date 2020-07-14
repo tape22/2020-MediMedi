@@ -23,10 +23,8 @@ router.post('/', ps, async (req, res) => {
   /* API에 검색하기-> 나중에 모듈로 빼기  */
   if (medInfo.length != 0) {
     var n = encodeURIComponent(medInfo);
-    console.log(n);
     var queryParams = '?' + encodeURIComponent('ServiceKey') + '=VD6O56pfN7UxrkSMBnnUS0stE6c3vvZiClYmIUGuO0LS37jUVukST9GU3cva9Ens5cx5eldbQ8qWqp7EbN7Ing%3D%3D';
     queryParams += '&' + encodeURIComponent('item_name') + '=' + n; /* 제품명 */
-    console.log(queryParams);
     var queryInput = ['entp_name', 'induty', 'prdlst_Stdr_code', 'spclty_pblc', 'prduct_prmisn_no'];
     for (i = 0; i < 5; i++) {
       queryParams += '&' + encodeURIComponent(queryInput[i]) + '=' + encodeURIComponent('');
