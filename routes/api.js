@@ -62,16 +62,13 @@ router.post('/', ps, async (req, res) => {
             VALID = $(this).children('VALID_TERM').text();
             EE = $(this).children('EE_DOC_DATA').text();
             UD = $(this).children('UD_DOC_DATA').text();
-            NB = $(this).children('NB_DOC_DATA').text();
+           // NB = $(this).children('NB_DOC_DATA').text();
 
-            result.push(name, ENTP, ETC, STORAGE, VALID, EE, UD, NB);
+            result.push(name, ENTP, ETC, STORAGE, VALID, EE, UD);
           });
           console.log(result);
           res.status(sc.OK).send(au.successTrue(result));
-
-        }
-		result = body;
-		console.log(result);
+	
 	}
       );
     }
