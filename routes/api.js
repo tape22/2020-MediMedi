@@ -7,10 +7,10 @@ var { sc, au, rm } = require('../modules/utils');
 var url = 'http://apis.data.go.kr/1471057/MdcinPrductPrmisnInfoService/getMdcinPrductItem';
 var iv = require('iconv-lite');
 var result = [];
-
 // API에 검색하기
 router.post('/', ps, async (req, res) => {
   var medInfo = req.body;
+  result.length = 0;
   medInfo = medInfo.toString();
 
   if (medInfo == '') {
@@ -63,6 +63,7 @@ router.post('/', ps, async (req, res) => {
 
       res.status(sc.OK).send(au.successTrue(result));
       console.log(result);
+
       return;
     });
   } catch (err) {
