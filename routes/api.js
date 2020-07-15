@@ -44,7 +44,6 @@ router.post('/', ps, async (req, res) => {
       var xmlContent = iv.decode(content, 'utf-8').toString();
       var $ = cheerio.load(xmlContent, { xmlMode: true });
 
-
       /*totalCount가 0이면 에러처리하기  */
       if ($('totalCount') == 0) {
         res.status(sc.BAD_REQUEST).send(au.successFalse(rm.API_NULL));
@@ -64,7 +63,6 @@ router.post('/', ps, async (req, res) => {
 
       res.status(sc.OK).send(au.successTrue(result));
       console.log(result);
-      result.length = 0;
       return;
     });
   } catch (err) {
@@ -78,6 +76,7 @@ router.post('/', ps, async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     res.send(result);
+    result.length = 0;
     console.log('통신성공');
   } catch (err) {
     console.log('err');
