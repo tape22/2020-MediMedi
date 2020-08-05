@@ -11,6 +11,7 @@ from konlpy.tag import Kkma
 from konlpy.tag import Mecab as m
 
 
+
 m=m()
 samp = sys.argv[1]
 samp = ''.join(samp)

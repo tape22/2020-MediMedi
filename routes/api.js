@@ -7,6 +7,9 @@ var { sc, au, rm } = require('../modules/utils');
 var url = 'http://apis.data.go.kr/1471057/MdcinPrductPrmisnInfoService/getMdcinPrductItem';
 var iv = require('iconv-lite');
 var result = [];
+
+var namelist = ['NAME', 'ENTP', 'ETC', 'STORAGE', 'VALID', 'EE', 'UD', 'NB'];
+var aJson = new Object();
 // API에 검색하기
 router.post('/', ps, async (req, res) => {
   var medInfo = req.body;
@@ -59,10 +62,32 @@ router.post('/', ps, async (req, res) => {
         NB = $(this).children('NB_DOC_DATA').text();
 
         result.push(NAME, ENTP, ETC, STORAGE, VALID, EE, UD, NB);
-      });
 
-      res.status(sc.OK).send(au.successTrue(result));
-      console.log(result);
+        for (var i in result) {
+          result[i] = result[i].replace(/\r/g, '');
+          result[i] = result[i].replace(/\n/g, '');
+          aJson[namelist[i]] = result[i];
+        }
+        // aJson.name = NAME;
+        // aJson.entp = ENTP;
+        // aJson.etc = ETC;
+        // aJson.storage = STORAGE;
+        // aJson.valid = VALID;
+
+        // EE = EE.replace(/\n/g, ''); // 개행문자 제거
+        // EE = EE.replace(/\r/g, '');
+        // UD = UD.replace(/\n/g, ''); // 개행문자 제거
+        // UD = UD.replace(/\r/g, '');
+        // NB = NB.replace(/\n/g, ''); // 개행문자 제거
+        // NB = NB.replace(/\r/g, '');
+        // aJson.ee = EE;
+        // aJson.ud = UD;
+        // aJson.nb = NB;
+      });
+      //var sJson = JSON.stringify(aJson);
+      console.log(aJson);
+
+      res.status(sc.OK).send(au.successTrue(aJson));
 
       return;
     });
