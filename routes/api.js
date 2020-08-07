@@ -84,7 +84,7 @@ router.post('/', ps, async (req, res) => {
         // aJson.ud = UD;
         // aJson.nb = NB;
       });
-      //var sJson = JSON.stringify(aJson);
+      var sJson = JSON.stringify(aJson);
       console.log(aJson);
 
       res.status(sc.OK).send(au.successTrue(aJson));
@@ -101,7 +101,7 @@ router.post('/', ps, async (req, res) => {
 // API 검색 결과 가져오기
 router.get('/', async (req, res) => {
   try {
-    res.send(result);
+    res.send(aJson);
     result.length = 0;
     console.log('통신성공');
   } catch (err) {
