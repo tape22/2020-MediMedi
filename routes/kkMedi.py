@@ -16,7 +16,7 @@ m=m()
 samp = sys.argv[1]
 samp = ''.join(samp)
 result= m.pos(samp)
-# print(result)
+#print(result)
 nouns = list()
 
 nomenc = ['캡슐','주사액','수성현탁주사액','점안액','액','농축액','점안액','신','점비액','산','가루','엑스산','연고','연질','진통제','수입','정','시럽','좌제','연질','페이스트','주정','과립',

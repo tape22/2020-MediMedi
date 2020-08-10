@@ -5,15 +5,15 @@ module.exports = async (req, res, next) => {
   let { medInfo } = req.body;
   console.log('medInfo:', medInfo);
 
-  medInfo = medInfo.replace(/\n/g, ''); // 개행문자 제거
+  medInfo = medInfo.replace(/\n/g, ''); // 개행문자 제거 
   medInfo = medInfo.replace(/\t/g, '');
-  var regExp = /[\{\}\[\]\/?.•·,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
+	var regExp = /[\{\}\[\]\/?.•·,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
 
-  if (regExp.test(medInfo)) {
-    var t = medInfo.replace(regExp, '');
-    medInfo = t;
-  }
-  medInfo = medInfo.replace(/ /gi, '');
+	if (regExp.test(medInfo)) {
+		var t = medInfo.replace(regExp, '');
+		medInfo = t;
+	}
+	medInfo = medInfo.replace(/ /gi, '');
 
   console.log('미들웨어:', medInfo);
 
