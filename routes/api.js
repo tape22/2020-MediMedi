@@ -10,18 +10,18 @@ var result = [];
 
 var namelist = ['NAME', 'ENTP', 'ETC', 'STORAGE', 'VALID', 'EE', 'UD', 'NB'];
 var aJson = new Object();
+
 // API에 검색하기
 router.post('/', ps, async (req, res) => {
   var medInfo = req.body;
   result.length = 0;
   medInfo = medInfo.toString();
+  console.log('첫 medinfo:', medInfo);
 
   if (medInfo == '') {
     console.log('값 못읽어옴.');
     res.status(sc.BAD_REQUEST).send(au.fail(sc.BAD_REQUEST, rm.NULL_VALUE));
   }
-
-  /* 추가적인 알고리즘 */
 
   /* API에 검색하기-> 나중에 모듈로 빼기  */
   if (medInfo.length != 0) {
@@ -84,11 +84,9 @@ router.post('/', ps, async (req, res) => {
         // aJson.ud = UD;
         // aJson.nb = NB;
       });
-      //var sJson = JSON.stringify(aJson);
-      console.log(aJson);
-
-      res.status(sc.OK).send(au.successTrue(aJson));
-
+      var sJson = JSON.stringify(aJson);
+      console.log(sJson);
+      res.status(sc.OK).send(au.successTrue(sJson));
       return;
     });
   } catch (err) {
@@ -101,9 +99,15 @@ router.post('/', ps, async (req, res) => {
 // API 검색 결과 가져오기
 router.get('/', async (req, res) => {
   try {
-    res.send(result);
-    result.length = 0;
-    console.log('통신성공');
+    // 결과 값이 있으면 보내는 거 예외처리
+    if (Object.keys(aJson).length > 0) {
+      res.send(aJson);
+      result.length = 0;
+      console.log('결과 값 가져오기 성공');
+    } else {
+      res.status(sc.BAD_REQUEST).send(au.successFalse(rm.NULL_VALUE));
+      console.log('결과 값이 안읽힌거임');
+    }
   } catch (err) {
     console.log('err');
   }

@@ -31,7 +31,7 @@ module.exports = async (req, res, next) => {
       }
       if (message == '') {
         console.log(' 결과값이 없음.');
-        res.send(sc.NO_CONTENT);
+        res.status(sc.BAD_REQUEST).send(au.successFalse(rm.NULL_VALUE));
       } else {
         console.log('message:', message);
         req.body = message;
