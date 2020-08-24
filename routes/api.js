@@ -83,9 +83,12 @@ router.post('/', ps, async (req, res) => {
         }
         result2.push(aJson);
       });
-      //result2.push(aJson);
-      //console.log(result2);
-      //var sJson = JSON.stringify(aJson);
+
+      var sJson = JSON.stringify(aJson);
+      console.log(aJson);
+
+      res.status(sc.OK).send(au.successTrue(aJson));
+
 
       res.status(sc.OK).send(au.successTrue(result2));
       return;
@@ -100,6 +103,7 @@ router.post('/', ps, async (req, res) => {
 // API 검색 결과 가져오기
 router.get('/', async (req, res) => {
   try {
+
     // 결과 값이 있으면 보내는 거 예외처리
     if (Object.keys(aJson).length > 0) {
       res.send(aJson);
@@ -109,6 +113,7 @@ router.get('/', async (req, res) => {
       res.status(sc.BAD_REQUEST).send(au.successFalse(rm.NULL_VALUE));
       console.log('결과 값이 안읽힌거임');
     }
+
   } catch (err) {
     res.status(sc.BAD_REQUEST).send(au.successFalse(rm.NULL_VALUE));
     console.log('err');
