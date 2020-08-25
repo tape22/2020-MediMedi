@@ -1,29 +1,9 @@
-const express = require('express');
-const router = express.Router();
-var ps = require('../modules/python');
-//var search = require('../modules/search');
-var request = require('request');
-var cheerio = require('cheerio');
 var { sc, au, rm } = require('../modules/utils');
 var url = 'http://apis.data.go.kr/1471057/MdcinPrductPrmisnInfoService/getMdcinPrductItem';
-var iv = require('iconv-lite');
-var result = [];
-var result2 = [];
-var namelist = [];
-var aJson = new Object();
-// API에 검색하기
-router.post('/', ps, async (req, res) => {
-  var medInfo = req.body;
-  result.length = 0;
-  medInfo = medInfo.toString();
-  console.log('첫 medinfo:', medInfo);
 
-  if (medInfo == '') {
-    console.log('값 못읽어옴.');
-    res.status(sc.BAD_REQUEST).send(au.fail(sc.BAD_REQUEST, rm.NULL_VALUE));
-  }
+module.exports = async (req, res, next) => {
+  let { medInfo } = req.body;
 
-  /* API에 검색하기-> 나중에 모듈로 빼기  */
   if (medInfo.length != 0) {
     var n = encodeURIComponent(medInfo);
     var queryParams = '?' + encodeURIComponent('ServiceKey') + '=VD6O56pfN7UxrkSMBnnUS0stE6c3vvZiClYmIUGuO0LS37jUVukST9GU3cva9Ens5cx5eldbQ8qWqp7EbN7Ing%3D%3D';
@@ -45,19 +25,13 @@ router.post('/', ps, async (req, res) => {
       }
       var content = Buffer.from(body);
       var xmlContent = iv.decode(content, 'utf-8').toString();
-
       var $ = cheerio.load(xmlContent, { xmlMode: true });
-      var cnt = $('totalCount').text();
 
       /*totalCount가 0이면 에러처리하기  */
-      if (cnt == 0) {
+      if ($('totalCount') == 0) {
         res.status(sc.BAD_REQUEST).send(au.successFalse(rm.API_NULL));
       }
 
-      for (var j = 0; j < cnt; j++) {
-        namelist.push('NAME', 'ENTP', 'ETC', 'STORAGE', 'VALID', 'EE', 'UD', 'NB');
-      }
-      // console.log(namelist);
       $('item').each(function () {
         NAME = $(this).children('ITEM_NAME').text();
         /* 어떤 게 맞는 것인지 묻기 */
@@ -76,48 +50,22 @@ router.post('/', ps, async (req, res) => {
 
         result.push(NAME, ENTP, ETC, STORAGE, VALID, EE, UD, NB);
 
-        for (var i = 0; i < result.length; i++) {
+        for (var i in result) {
           result[i] = result[i].replace(/\r/g, '');
           result[i] = result[i].replace(/\n/g, '');
           aJson[namelist[i]] = result[i];
         }
-        result2.push(aJson);
       });
 
       var sJson = JSON.stringify(aJson);
-      console.log(aJson);
-
-      res.status(sc.OK).send(au.successTrue(aJson));
-
-
-      res.status(sc.OK).send(au.successTrue(result2));
-      return;
+      //console.log(sJson);
+      req.body = sJson;
+      //res.status(sc.OK).send(au.successTrue(sJson));
+      next();
     });
   } catch (err) {
     res.status(500).send('error');
     console.log(err);
     return;
   }
-});
-
-// API 검색 결과 가져오기
-router.get('/', async (req, res) => {
-  try {
-
-    // 결과 값이 있으면 보내는 거 예외처리
-    if (Object.keys(aJson).length > 0) {
-      res.send(aJson);
-      result.length = 0;
-      console.log('결과 값 가져오기 성공');
-    } else {
-      res.status(sc.BAD_REQUEST).send(au.successFalse(rm.NULL_VALUE));
-      console.log('결과 값이 안읽힌거임');
-    }
-
-  } catch (err) {
-    res.status(sc.BAD_REQUEST).send(au.successFalse(rm.NULL_VALUE));
-    console.log('err');
-  }
-});
-
-module.exports = router;
+};
