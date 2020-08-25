@@ -10,7 +10,7 @@ var iv = require('iconv-lite');
 var result = [];
 var result2 = [];
 var namelist = [];
-var aJson = new Object();
+
 // API에 검색하기
 router.post('/', ps, async (req, res) => {
   var medInfo = req.body;
@@ -75,21 +75,20 @@ router.post('/', ps, async (req, res) => {
         NB = $(this).children('NB_DOC_DATA').text();
 
         result.push(NAME, ENTP, ETC, STORAGE, VALID, EE, UD, NB);
-
-        for (var i = 0; i < result.length; i++) {
-          result[i] = result[i].replace(/\r/g, '');
-          result[i] = result[i].replace(/\n/g, '');
-          aJson[namelist[i]] = result[i];
+        for (var j = 0; j < cnt; j++) {
+          var aJson = new Object();
+          for (var i = 0; i < result.length; i++) {
+            result[i] = result[i].replace(/\r/g, '');
+            result[i] = result[i].replace(/\n/g, '');
+            aJson[namelist[i]] = result[i];
+          }
+          result2.push(aJson);
         }
-        result2.push(aJson);
       });
 
-      var sJson = JSON.stringify(aJson);
-      console.log(aJson);
+      result2 = Array.from(new Set(result2.map(JSON.stringify))).map(JSON.parse);
 
-      res.status(sc.OK).send(au.successTrue(aJson));
-
-
+      //var sJson = JSON.stringify(aJson);
       res.status(sc.OK).send(au.successTrue(result2));
       return;
     });
@@ -103,7 +102,6 @@ router.post('/', ps, async (req, res) => {
 // API 검색 결과 가져오기
 router.get('/', async (req, res) => {
   try {
-
     // 결과 값이 있으면 보내는 거 예외처리
     if (Object.keys(aJson).length > 0) {
       res.send(aJson);
@@ -113,7 +111,6 @@ router.get('/', async (req, res) => {
       res.status(sc.BAD_REQUEST).send(au.successFalse(rm.NULL_VALUE));
       console.log('결과 값이 안읽힌거임');
     }
-
   } catch (err) {
     res.status(sc.BAD_REQUEST).send(au.successFalse(rm.NULL_VALUE));
     console.log('err');
