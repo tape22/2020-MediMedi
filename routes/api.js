@@ -85,10 +85,6 @@ router.post('/', ps, async (req, res) => {
           result2.push(aJson);
         }
       });
-      //result2.push(aJson);
-      // 동일한 건 제거하기
-
-      // res.status(sc.OK).send(au.successTrue(aJson));
 
       result2 = Array.from(new Set(result2.map(JSON.stringify))).map(JSON.parse);
 
@@ -122,4 +118,3 @@ router.get('/', async (req, res) => {
 });
 
 module.exports = router;
-햣
