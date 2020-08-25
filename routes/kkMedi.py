@@ -17,7 +17,7 @@ m=m()
 samp = sys.argv[1]
 samp = ''.join(samp)
 result= m.pos(samp)
-# print(result)
+#print(result)
 nouns = list()
 #print(result)
 
