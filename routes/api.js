@@ -15,6 +15,9 @@ var namelist = [];
 router.post('/', ps, async (req, res) => {
   var medInfo = req.body;
   result.length = 0;
+  result2.length = 0;
+  namelist.length = 0;
+
   medInfo = medInfo.toString();
   console.log('첫 medinfo:', medInfo);
 
@@ -103,9 +106,10 @@ router.post('/', ps, async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     // 결과 값이 있으면 보내는 거 예외처리
-    if (Object.keys(aJson).length > 0) {
-      res.send(aJson);
+    if (Object.keys(result2).length > 0) {
+      res.send(result2);
       result.length = 0;
+      result2.length = 0;
       console.log('결과 값 가져오기 성공');
     } else {
       res.status(sc.BAD_REQUEST).send(au.successFalse(rm.NULL_VALUE));
