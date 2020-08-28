@@ -8,15 +8,15 @@ var { sc, au, rm } = require('../modules/utils');
 var url = 'http://apis.data.go.kr/1471057/MdcinPrductPrmisnInfoService/getMdcinPrductItem';
 var iv = require('iconv-lite');
 var result = [];
-var aJson = new Object();
-var namelist = ['NAME', 'ENTP', 'ETC', 'STORAGE', 'VALID', 'EE', 'UD', 'NB'];
+var result2 = [];
+var namelist = [];
 
 // API에 검색하기
 router.post('/', ps, async (req, res) => {
   var medInfo = req.body;
   result.length = 0;
-  //result2.length = 0;
-  //namelist.length = 0;
+  result2.length = 0;
+  namelist.length = 0;
 
   medInfo = medInfo.toString();
   console.log('첫 medinfo:', medInfo);
@@ -57,10 +57,10 @@ router.post('/', ps, async (req, res) => {
         res.status(sc.BAD_REQUEST).send(au.successFalse(rm.API_NULL));
       }
 
-      // for (var j = 0; j < cnt; j++) {
-      //   namelist.push('NAME', 'ENTP', 'ETC', 'STORAGE', 'VALID', 'EE', 'UD', 'NB');
-      // }
-      // console.log(namelist);
+      for (var j = 0; j < cnt; j++) {
+        namelist.push('NAME', 'ENTP', 'ETC', 'STORAGE', 'VALID', 'EE', 'UD', 'NB');
+      }
+
       $('item').each(function () {
         NAME = $(this).children('ITEM_NAME').text();
         /* 어떤 게 맞는 것인지 묻기 */
@@ -78,27 +78,29 @@ router.post('/', ps, async (req, res) => {
         NB = $(this).children('NB_DOC_DATA').text();
 
         result.push(NAME, ENTP, ETC, STORAGE, VALID, EE, UD, NB);
-        for (var i in result) {
-          result[i] = result[i].replace(/\r/g, '');
-          result[i] = result[i].replace(/\n/g, '');
-          aJson[namelist[i]] = result[i];
-        }
-        // for (var j = 0; j < cnt; j++) {
-        //   var aJson = new Object();
-        //   for (var i = 0; i < result.length; i++) {
-        //     result[i] = result[i].replace(/\r/g, '');
-        //     result[i] = result[i].replace(/\n/g, '');
-        //     aJson[namelist[i]] = result[i];
-        //   }
-        //   result2.push(aJson);
+        // console.log(result);
+        // for (var i in result) {
+        //   result[i] = result[i].replace(/\r/g, '');
+        //   result[i] = result[i].replace(/\n/g, '');
+        //   aJson[namelist[i]] = result[i];
         // }
+        for (var j = 0; j < cnt; j++) {
+          var aJson = new Object();
+          for (var i = 0; i < result.length; i++) {
+            result[i] = result[i].replace(/\r/g, '');
+            result[i] = result[i].replace(/\n/g, '');
+            aJson[namelist[i]] = result[i];
+          }
+          result2.push(aJson);
+        }
       });
 
-      //result2 = Array.from(new Set(result2.map(JSON.stringify))).map(JSON.parse);
+      result2 = Array.from(new Set(result2.map(JSON.stringify))).map(JSON.parse);
+
       //result.push(aJson);
 
       //var sJson = JSON.stringify(aJson);
-      res.status(sc.OK).send(au.successTrue(aJson));
+      res.status(sc.OK).send(au.successTrue(result2[0]));
       return;
     });
   } catch (err) {
@@ -112,10 +114,8 @@ router.post('/', ps, async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     // 결과 값이 있으면 보내는 거 예외처리
-    if (Object.keys(aJson).length > 0) {
-      res.send(aJson);
-      result.length = 0;
-      //result2.length = 0;
+    if (Object.keys(result2[0]).length > 0) {
+      res.send(result2[0]);
       console.log('결과 값 가져오기 성공');
     } else {
       res.status(sc.BAD_REQUEST).send(au.successFalse(rm.NULL_VALUE));
@@ -124,6 +124,21 @@ router.get('/', async (req, res) => {
   } catch (err) {
     res.status(sc.BAD_REQUEST).send(au.successFalse(rm.NULL_VALUE));
     console.log('err');
+  }
+
+  // var nl2 = ['NAME', 'ENTP', 'ETC', 'STORAGE', 'VALID', 'EE', 'UD', 'NB'];
+  if (Object.keys(result2).length > 0) {
+    delete result2[0].NAME;
+    delete result2[0].ENTP;
+    delete result2[0].ETC;
+    delete result2[0].VALID;
+    delete result2[0].EE;
+    delete result2[0].UD;
+    delete result2[0].STORAGE;
+    delete result2[0].NB;
+    console.log(result2[0]);
+    result.length = 0;
+    result2.length = 0;
   }
 });
 
