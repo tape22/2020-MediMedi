@@ -9,13 +9,20 @@ import re
 
 from konlpy.tag import Kkma
 from konlpy.tag import Mecab as m
+# from gensim.models import word2vec
+# import csv
 
-
+# f = open('/Users/jungmin/Downloads/med.csv', 'r', encoding='utf-8')
+# rdr = csv.reader(f, delimiter='\t')
+# r= list(rdr)
+# f.close()
 
 m=m()
-#samp = "Germany시카포스겔카보머SURSAPHARMJOG101D0101일반의약품■원료약품및분량1g중분류번호013101유효성분카보머EP2mg첨가제보존제세트리미드EP01mg기타첨가제소르비톨에데트산나트륨수산화나트륨주사용수■성상알루미늄튜브에든무색투명한점적성의점안겔"
+#samp = "○흉터치료제노스카나noscarna0동아제약로이드성홍터190519810g"
 samp = sys.argv[1]
 samp = ''.join(samp)
+
+
 result= m.pos(samp)
 #print(result)
 nouns = list()
@@ -30,7 +37,25 @@ for keyword, type in result:
         nouns.append(keyword)
 
 nouns = list(set(nouns))
+# 여러개의 NNP 중에서 어떤 것을 의약품명으로 인식할 것인지?
 name = ''.join(nouns)
 
 print(name)
 
+
+# with open("NaverMovie.nlp",'w', encoding='utf-8') as fp:
+#      fp.write("\n".join(nouns))
+
+#  #Word2Vec 모델 만들기
+# wData = word2vec.LineSentence("NaverMovie.nlp")
+# wModel =word2vec.Word2Vec(wData, size=200, window=10, hs=1, min_count=1, sg=1)
+# wModel.save("NaverMovie.model")
+# print("Word2Vec Modeling finished")
+
+# print(wModel.wv.most_similar("정"))
+
+# model = word2vec.Word2Vec.load("NaverMovie.model")
+
+# print(model.most_similar(positive=["노스카나"]))
+
+# #print(model.most_similar(positive=["노비손"]))

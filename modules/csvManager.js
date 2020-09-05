@@ -9,7 +9,7 @@ const csv = require('csvtojson');
 Level 1
 -> 파일 이름을 지정할 수 있다.
 */
-const filePath = './public/csvs/';
+const filePath = './public/csv';
 
 const csvManager = {
   write: (fileName, jsonArray) => {

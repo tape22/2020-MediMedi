@@ -19,7 +19,7 @@ router.post('/', ps, async (req, res) => {
   namelist.length = 0;
 
   medInfo = medInfo.toString();
-  console.log('첫 medinfo:', medInfo);
+  console.log('medInfo:', medInfo);
 
   if (medInfo == '') {
     console.log('값 못읽어옴.');
