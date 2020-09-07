@@ -23,6 +23,7 @@ samp = sys.argv[1]
 samp = ''.join(samp)
 
 
+
 result= m.pos(samp)
 #print(result)
 nouns = list()

@@ -5,22 +5,22 @@ module.exports = async (req, res, next) => {
   let { medInfo } = req.body;
   console.log('medInfo:', medInfo);
 
-  try {
-    if (medInfo != undefined) {
-      medInfo = medInfo.replace(/\n/g, ''); // 개행문자 제거
-      medInfo = medInfo.replace(/\t/g, '');
-      var regExp = /[\{\}\[\]\/?.•·,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
+  if (medInfo == 'undefined') {
+    console.log('medInfo가 undefined');
+    res.status(sc.BAD_REQUEST).send(au.successFalse(rm.MEDI_UNDEFINED));
+  }
 
-      if (regExp.test(medInfo)) {
-        var t = medInfo.replace(regExp, '');
-        medInfo = t;
-      }
-      medInfo = medInfo.replace(/ /gi, '');
-      console.log('미들웨어:', medInfo);
-    } else {
-      console.log('미들웨어 undefined');
-      res.status(sc.BAD_REQUEST).send(au.successFalse(rm.MEDI_UNDEFINED));
+  try {
+    medInfo = medInfo.replace(/\n/g, ''); // 개행문자 제거
+    medInfo = medInfo.replace(/\t/g, '');
+    var regExp = /[\{\}\[\]\/?.•·,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
+
+    if (regExp.test(medInfo)) {
+      var t = medInfo.replace(regExp, '');
+      medInfo = t;
     }
+    medInfo = medInfo.replace(/ /gi, '');
+    console.log('미들웨어:', medInfo);
 
     let options = {
       mode: 'text',
