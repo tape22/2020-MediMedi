@@ -5,26 +5,31 @@ module.exports = async (req, res, next) => {
   let { medInfo } = req.body;
   console.log('medInfo:', medInfo);
 
-  medInfo = medInfo.replace(/\n/g, ''); // 개행문자 제거
-  medInfo = medInfo.replace(/\t/g, '');
-  var regExp = /[\{\}\[\]\/?.•·,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
-
-  if (regExp.test(medInfo)) {
-    var t = medInfo.replace(regExp, '');
-    medInfo = t;
-  }
-  medInfo = medInfo.replace(/ /gi, '');
-
-  console.log('미들웨어:', medInfo);
-
-  let options = {
-    mode: 'text',
-    pythonPath: '',
-    pythonOptions: ['-u'],
-    scriptPath: '',
-    args: medInfo,
-  };
   try {
+    if (medInfo != undefined) {
+      medInfo = medInfo.replace(/\n/g, ''); // 개행문자 제거
+      medInfo = medInfo.replace(/\t/g, '');
+      var regExp = /[\{\}\[\]\/?.•·,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
+
+      if (regExp.test(medInfo)) {
+        var t = medInfo.replace(regExp, '');
+        medInfo = t;
+      }
+      medInfo = medInfo.replace(/ /gi, '');
+      console.log('미들웨어:', medInfo);
+    } else {
+      console.log('미들웨어 undefined');
+      res.status(sc.BAD_REQUEST).send(au.successFalse(rm.MEDI_UNDEFINED));
+    }
+
+    let options = {
+      mode: 'text',
+      pythonPath: '',
+      pythonOptions: ['-u'],
+      scriptPath: '',
+      args: medInfo,
+    };
+
     ps.PythonShell.run('/Users/jungmin/Desktop/졸업 프로젝트/medi/-2020-MediMedi/routes/kkMedi.py', options, function (err, message) {
       if (err) {
         throw err;
@@ -44,3 +49,4 @@ module.exports = async (req, res, next) => {
     throw err;
   }
 };
+
