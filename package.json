@@ -24,7 +24,7 @@
     "python": "0.0.4",
     "python-shell": "^2.0.1",
     "request": "^2.88.2",
-    "sanitize-html": "^1.27.0",
+    "sanitize-html": "^2.3.2",
     "xml-js": "^1.6.11",
     "xmlhttprequest": "^1.8.0"
   }
